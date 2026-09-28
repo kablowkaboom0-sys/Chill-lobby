@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chill Lobby</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#0b0d12;color:#fff}
+body{padding:24px}.wrap{max-width:1200px;margin:auto}
+header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px}
+h1{margin:0;font-size:clamp(28px,5vw,46px)}.sub{color:#9ca3af;margin:6px 0 0}
+.card{background:#151923;border:1px solid #252b38;border-radius:20px;padding:18px;box-shadow:0 12px 40px #0005}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+button{border:0;border-radius:12px;padding:11px 15px;background:#252b38;color:#fff;font-weight:700;cursor:pointer}
+button:hover{filter:brightness(1.15)}.play{background:#fff;color:#111}
+#gameWrap{display:none;position:relative;background:#000;border-radius:14px;overflow:hidden;min-height:70vh}
+iframe{width:100%;height:75vh;min-height:520px;border:0;display:block;background:#000}
+#loading{position:absolute;inset:0;display:none;place-items:center;background:#000;color:#aaa;z-index:2}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.game{padding:20px;border:1px solid #2b3240;border-radius:16px;background:#10131a}
+.game h2{margin:0 0 8px}.game p{color:#9ca3af;min-height:44px}
+@media(max-width:650px){body{padding:14px}iframe{height:72vh;min-height:420px}header{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div><h1>Chill Lobby 🎮</h1><p class="sub">Pick a game and play.</p></div></header>
+<section class="card">
+<div id="lobby">
+<div class="games">
+<div class="game">
+<h2>Speed Run</h2><p>Jump into the game and see how fast you can finish.</p>
+<button class="play" onclick="openGame()">Play</button>
+</div>
+</div>
+</div>
+<div id="gameWrap">
+<div class="toolbar">
+<button onclick="backToLobby()">← Lobby</button>
+<button onclick="reloadGame()">↻ Reload</button>
+<button onclick="fullscreenGame()">⛶ Fullscreen</button>
+</div>
+<div id="loading">Loading game…</div>
+<iframe id="game" title="Speed Run game" allow="fullscreen; gamepad; autoplay" allowfullscreen></iframe>
+</div>
+</section>
+</div>
+<script>
+const GAME_URL="https://dulcet-valkyrie-af971a.netlify.app";
+const lobby=document.getElementById("lobby"), wrap=document.getElementById("gameWrap"), frame=document.getElementById("game"), loading=document.getElementById("loading");
+function openGame(){lobby.style.display="none";wrap.style.display="block";loading.style.display="grid";frame.src=GAME_URL;frame.onload=()=>loading.style.display="none"}
+function backToLobby(){frame.src="about:blank";wrap.style.display="none";lobby.style.display="block"}
+function reloadGame(){loading.style.display="grid";frame.src=GAME_URL}
+function fullscreenGame(){if(frame.requestFullscreen)frame.requestFullscreen();else if(wrap.requestFullscreen)wrap.requestFullscreen()}
+</script>
+</body>
+</html>
